@@ -1,0 +1,35 @@
+extends layout
+
+block content
+
+  div#headbar.d-flex.justify-content-between
+    div.d-flex.justify-content-left
+      a(href=source)
+        i.back-arrow.fa.fa-chevron-left(aria-hidden='true') 
+      div
+        h1.page-header !{startName} !{alias}
+    a(href='/usage/edit/' + oemID)
+      img(src="/img/icons/devices/" + type + ".png").device-icon
+
+  input(id='device-oem-id', type="hidden", value=oemID)
+
+  div#heading 
+    h2 Usage
+
+  hr.mb-5
+  
+  input#oemID.form-control(type="hidden", value=oemID)
+
+  ul.nav.nav-tabs.mb-5.d-flex.justify-content-center
+    li.nav-item(onClick="setGraph('today')").mr-2
+      p#todayTab.nav-link.active(href='#') Today
+    li.nav-item(onClick="setGraph('week')").ml-2
+      p#weekTab.nav-link(href='#') This Week
+
+  canvas#usageGraph.mb-4(width="400" height="400").mt-4
+
+  include sections/bottomBar
+
+block scripts
+  script(src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js')
+  script(async, src='/js/usage-graphs.js')

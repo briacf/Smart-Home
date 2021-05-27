@@ -1,0 +1,86 @@
+extends layout
+
+block content
+  div#headbar.d-flex.justify-content-between
+    div.d-flex.justify-content-left
+      a(href='/rooms')
+        i.back-arrow.fa.fa-chevron-left.roomsarrow(aria-hidden='true') 
+      div.roomsdetailstext
+        h1 Room
+        h2=roomName
+    a(href='/rooms/edit/' + roomName)
+      i.page-header.fa.fa-pencil(aria-hidden='true')
+
+  hr
+
+  div#homedevices
+  if (deviceList.length)
+    div
+      each device, index in deviceList
+        if (device.status)
+          if (device.deviceModel.includes("LB"))
+            div(id=device.alias + '-container').device-container.dropdowngradient.expandable.device.mb-5
+              div.d-flex.justify-content-between
+                div
+                  h1 !{device.deviceModel.split('(')[0]}
+                  h2=device.alias
+                a(href='/usage/' + device.deviceId)
+                  i.device-arrow.fa.fa-chevron-right(aria-hidden='true') 
+
+              h3 Power Usage
+                div.d-flex.justify-content-between
+                  img.product-spinner.loading-spinner(src='https://upload.wikimedia.org/wikipedia/commons/7/7a/Ajax_loader_metal_512.gif')
+                  p(id="power-label-" + index).power
+                  p(id="power-live-label-" + index).power-live
+
+                h3 Brightness
+                  div.slidecontainer
+                    input(type="range" min="0" max="10" value="5" class="slider" id=device.alias + '-brightness' onChange='toggleBrightness("' + device.alias + '", "' + device.deviceModel + '",  this.value)')
+
+                  h3 Color
+                  div.d-flex.justify-content-between
+                    div(id=device.alias + '-color-off-white', onClick='toggleColor("' + device.alias + '", "' + device.deviceModel + '",  "off-white")').circle.off-white.selected
+                    div(id=device.alias + '-color-red', onClick='toggleColor("' + device.alias + '", "' + device.deviceModel + '",  "red")').circle.red
+                    div(id=device.alias + '-color-blue', onClick='toggleColor("' + device.alias + '", "' + device.deviceModel + '",  "blue")').circle.blue
+                    div(id=device.alias + '-color-green', onClick='toggleColor("' + device.alias + '", "' + device.deviceModel + '",  "green")').circle.green
+                    div(id=device.alias + '-color-white', onClick='toggleColor("' + device.alias + '", "' + device.deviceModel + '",  "white")').circle.white
+
+
+
+          else
+            div(id=device.alias + '-container').device-container.mb-5
+              div.d-flex.justify-content-between
+                div
+                  h1 !{device.deviceModel.split('(')[0]}
+                  h2=device.alias
+                a(href='/usage/' + device.deviceId)
+                  i.device-arrow.fa.fa-chevron-right(aria-hidden='true') 
+
+              h3 Power Usage
+              div.d-flex.justify-content-between
+                img.product-spinner.loading-spinner(src='https://upload.wikimedia.org/wikipedia/commons/7/7a/Ajax_loader_metal_512.gif')
+                p(id="power-label-" + index).power
+                p(id="power-live-label-" + index).power-live
+
+      
+        div(id=device.alias + '-switch-box').toggle-container.expandable.mb-5(onClick='toggleAppliance("' + device.alias + '", "' + device.deviceModel + '")')
+          i(id=device.alias + '-switch').powertoggle.fa.fa-toggle-on(aria-hidden='true')
+
+
+      else
+        div(id=device.alias + '-container').device-container.inactivedevice.expandable.mb-5
+          div.d-flex.justify-content-between
+            div
+              h1=device.deviceModel
+              h2=device.alias
+              i.device-arrow.fa.fa-exclamation-triangle(aria-hidden='true') 
+
+
+  include sections/bottomBar
+
+block scripts
+  script(async, src='/js/toggle-appliance.js')
+  script(async, src='/js/toggle-color.js')
+  script(async, src='/js/toggle-brightness.js')
+  script(async, src='/js/expand-container.js')
+  script(async, src='/js/live-update.js')

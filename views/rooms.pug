@@ -1,0 +1,39 @@
+extends layout
+
+block content
+  div.d-flex.justify-content-between
+    img(src='/img/icons/door-open-solid.svg').leesavetitleicon.roomiconroom
+    h1.page-header.fontbolder Rooms
+    a(href='/rooms/add')
+      i.page-header-icon.fa.fa-plus(aria-hidden='true')
+
+  ul.nav.nav-tabs.mb-5.d-flex.justify-content-between
+    li.nav-item(onClick="sortRooms('devices')")
+      a(href='/rooms')
+        unless recent
+          p#devicesTab.nav-link.active Most Devices
+        else
+          p#devicesTab.nav-link Most Devices
+    li.nav-item
+      a(href='/rooms/recent')
+        unless recent
+          p#devicesTab.nav-link Recently Added
+        else
+          p#devicesTab.nav-link.active Recently Added
+
+  each room, index in roomList
+    div.device-container.room.mb-5(class=room.color)
+      div.d-flex.justify-content-between
+        h2=room.name
+        a(href='/rooms/' + room.name)
+              i.device-arrow.fa.fa-chevron-right(aria-hidden='true') 
+
+      h3 Power Usage
+      div.d-flex.justify-content-between
+        img.room-spinner.loading-spinner(src='https://upload.wikimedia.org/wikipedia/commons/7/7a/Ajax_loader_metal_512.gif')
+        p(id=room.name.replace("'", "").replace(" ", "") + "-power-label-room").power.room-power.hidden W
+
+  include sections/bottomBar
+
+block scripts
+  script(src='/js/live-update-rooms.js')

@@ -1,0 +1,64 @@
+extends layout
+
+block content
+
+  if deviceList.length > 0
+    div.headlee
+      i.leesavetitleicon.fa.fa-check-circle(aria-hidden='true')
+      h1.page-header.leesavetitle LEESAve
+      ul.nav.nav-tabs.mb-5.d-flex.justify-content-between
+        li.nav-item.historyiconwidth
+          a(href='/leesave_history')
+            p#devicesTab.nav-link.active.historyblue History
+     
+    
+    div.dropdowndiv
+      select#dropdevices(name="dropdevices")
+        for otherDevices in deviceList
+          if (otherDevices.type != "undefined")
+            if (otherDevices.alias == device.alias)
+              option(onClick='leesaveRedirect("' + otherDevices.oem_id + '")' selected)=otherDevices.alias
+            else
+              option(onClick='leesaveRedirect("' + otherDevices.oem_id + '")')=otherDevices.alias
+
+      div.deviceleesavebox
+        h2.menuitem Rules
+
+        //each rule in leesaverule_list (generate for each device)
+        div.rule
+          div.rule-box.mb-5.expandable
+            //We need to save the 'Last recommended' date
+            h1 Recommended on 18/9/20
+            h2 Plug on
+            //We need to add 2 rules 
+            h5 04:00 to 08:00
+
+            table.dayslist
+              tr
+                th(id=device.alias+'-0-day-sunday', onClick='toggleRuleDays("' + device.alias + '", "' + 0 + '", "sunday")').checkedday S
+                th(id=device.alias+'-0-day-monday', onClick='toggleRuleDays("' + device.alias + '", "' + 0 + '", "monday")') M
+                th(id=device.alias+'-0-day-tuesday', onClick='toggleRuleDays("' + device.alias + '", "' + 0 + '", "tuesday")') T
+                th(id=device.alias+'-0-day-wednesday', onClick='toggleRuleDays("' + device.alias + '", "' + 0 + '", "wednesday")').checkedday W
+                th(id=device.alias+'-0-day-thursday', onClick='toggleRuleDays("' + device.alias + '", "' + 0 + '", "thursday")') T
+                th(id=device.alias+'-0-day-friday', onClick='toggleRuleDays("' + device.alias + '", "' + 0 + '", "friday")').checkedday F
+                th(id=device.alias+'-0-day-saturday', onClick='toggleRuleDays("' + device.alias + '", "' + 0 + '", "saturday")') S
+          
+          //div(id=alias + '-toggle', onClick='toggleRule("' + rule.device + ', "' + rule.id + '")').togglecolor.toggle-container.expandable.mb-5
+          div(id=device.alias + '-0-toggle', onClick='toggleRule("' + device.alias + '", "' + 0 + '")').togglecolor.toggle-container.expandable.mb-5
+            i(id=device.alias + '-0-switch', aria-hidden='true').powertoggle.fa.fa-toggle-off
+
+  else
+    .text-center.leesave-splash
+    
+      img(src='img/leesave-no-devices.jpg')
+      h1 You Don't Have Any Devices
+      br
+      h2 LEESAve gives you AI-powered notifications and power management. 
+      br
+      h2 Add a smart device to get started.
+
+  include sections/bottomBar
+
+block scripts
+  script(src='/js/toggle-rule.js')
+  script(src='/js/leesave-redirect.js')

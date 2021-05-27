@@ -1,0 +1,89 @@
+extends layout
+
+block content
+
+  div.login-container
+    input#numberDevices(type="hidden" value=deviceList.length)
+    h1.mb-5.detailh1 You've Got New Devices
+    h2.detailh2 Please select a type for your devices
+    form(method="post" action="/login/deviceTypes")
+      div.form-group.detailsform
+        each device, index in deviceList
+          .deviceTypeBox.mb-4.d-flex.justify-content-between(onClick='setAlias("' + device.alias + '")')
+            h3.name=device.alias
+            .d-flex.justify-content-center
+              input(type="hidden" id=device.alias + '-value', name=device.alias + 'Value', value="undefined")
+              if device.type = "undefined"
+                h3(id=device.alias + '-type') Not Set
+                img(id=device.alias + '-img', src="")
+              else
+                h3(id=device.alias + '-type')=device.type
+                img(id=device.alias + '-img', src="/img/icons/devices/" + device.type + ".png").type-icon
+
+        button#submit-btn.btn.btn-primary.btn-login.mt-4(disabled) Let's go!
+
+  #myModal.modal
+    .modal-content
+      .d-flex.justify-content-between.mb-5
+        h2.mt-4 Select Type
+        span.close.fa.fa-close
+
+      div(id='computer-box', onClick='selectType("computer")').device-select.mb-4.d-flex.justify-content-between
+          .d-flex.justify-content-center
+            img(src="/img/icons/devices/computer.png").type-icon.mt-2
+            h3 Computer
+          i(id='computer-check', aria-hidden='true').fa.fa-check
+          input(id='computer-value', name='Value', type='hidden', value='false')
+
+      div(id='fridge-box', onClick='selectType("fridge")').device-select.mb-4.d-flex.justify-content-between
+          .d-flex.justify-content-center
+            img(src="/img/icons/devices/fridge.png").type-icon.mt-2
+            h3 Fridge
+          i(id='fridge-check', aria-hidden='true').fa.fa-check
+          input(id='fridge-value', name='Value', type='hidden', value='false')
+
+      div(id='light-box', onClick='selectType("light")').device-select.mb-4.d-flex.justify-content-between
+          .d-flex.justify-content-center
+            img(src="/img/icons/devices/light.png").type-icon.mt-2
+            h3 Light
+          i(id='light-check', aria-hidden='true').fa.fa-check
+          input(id='light-value', name='Value', type='hidden', value='false')
+
+      div(id='microwave-box', onClick='selectType("microwave")').device-select.mb-4.d-flex.justify-content-between
+          .d-flex.justify-content-center
+            img(src="/img/icons/devices/microwave.png").type-icon.mt-2
+            h3 Microwave
+          i(id='microwave-check', aria-hidden='true').fa.fa-check
+          input(id='microwave-value', name='Value', type='hidden', value='false')
+
+      div(id='other-box', onClick='selectType("other")').device-select.mb-4.d-flex.justify-content-between
+          .d-flex.justify-content-center
+            img(src="/img/icons/devices/other.png").type-icon.mt-2
+            h3 Other
+          i(id='other-check', aria-hidden='true').fa.fa-check
+          input(id='other-value', name='Value', type='hidden', value='false')
+
+      div(id='oven-box', onClick='selectType("oven")').device-select.mb-4.d-flex.justify-content-between
+          .d-flex.justify-content-center
+            img(src="/img/icons/devices/oven.png").type-icon.mt-2
+            h3 Oven
+          i(id='oven-check', aria-hidden='true').fa.fa-check
+          input(id='oven-value', name='Value', type='hidden', value='false')
+
+      div(id='small-appliance-box', onClick='selectType("small-appliance")').device-select.mb-4.d-flex.justify-content-between
+          .d-flex.justify-content-center
+            img(src="/img/icons/devices/small-appliance.png").type-icon.mt-2
+            h3 Small Appliance
+          i(id='small-appliance-check', aria-hidden='true').fa.fa-check
+          input(id='small-appliance-value', name='Value', type='hidden', value='false')
+
+      div(id='tv-box', onClick='selectType("tv")').device-select.mb-4.d-flex.justify-content-between
+          .d-flex.justify-content-center
+            img(src="/img/icons/devices/tv.png").type-icon.mt-2
+            h3 TV
+          i(id='tv-check', aria-hidden='true').fa.fa-check
+          input(id='tv-value', name='Value', type='hidden', value='false')
+
+block scripts
+  script(src='/js/select-device-types.js')
+  script(src='/js/modal.js')

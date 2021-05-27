@@ -1,0 +1,37 @@
+extends layout
+
+block content
+
+  div.d-flex.justify-content-left
+    a(href='/profile')
+      i.back-arrow.fa.fa-chevron-left(aria-hidden='true') 
+    div
+      h1.page-header Edit Profile
+  div.login-container
+
+    form(method="post" action="/profile/edit" encType="multipart/form-data")
+      div.form-group.detailsform
+        h3.detailh3 Cover photo
+        input(type="file" name="coverPic")
+
+        h3.detailh3 Profile photo
+        input(type="file" name="profilePic")
+
+        h3.detailh3 First name
+        input.form-control.mb-4(
+          type='text'
+          name='firstname'
+          placeholder="Enter your first name",
+          profile.firstname
+          required
+        )
+        h3.detailh3 Last name
+        input.form-control.mb-4(
+          type='text'
+          name='lastname'
+          placeholder="Enter your last name"
+          value=profile.lastname
+          required
+        )
+        button.btn.btn-primary.btn-login Edit
+

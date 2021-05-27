@@ -1,0 +1,48 @@
+extends layout
+
+block content
+
+  div.login-container
+    h1.mb-5 Create an Account
+    form(method="post" action="https://68f3a04866c7.ngrok.io/login/register")
+      div.form-group
+        h2.label E-mail Address
+        input.form-control.mb-4(
+          type='email'
+          name='email'
+          placeholder="address@example.com"
+          required
+        )
+        h2.label Password
+        input.form-control(
+          type='password'
+          name='password'
+          placeholder="Password"
+          required
+        )
+        h2.label Confirm Password
+        input.form-control(
+          type='password'
+          name='cpassword'
+          placeholder="Retype password"
+          required
+        )
+        unless errors==""
+          div.text-center
+            p.error=errors
+        button.btn.btn-primary.btn-login.mt-5 Sign Up
+
+        br
+        br
+        .text-center.mt-5
+          a(href="/login")
+            h2 Already have an account?
+
+             .text-center.mt-5
+                a(href="https://www.tplinkcloud.com/register.php")
+                  h2 Sign up not working? 
+        
+<<<<<<< HEAD
+             
+=======
+>>>>>>> 22db940f11f3f7965eb0c811c4f96ef378ca32f4

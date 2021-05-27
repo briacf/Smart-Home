@@ -1,0 +1,30 @@
+extends layout
+
+block content
+  div#headbar.d-flex.justify-content-between
+    div.d-flex.justify-content-left
+      a(href='/rewards')
+        i.back-arrow.fa.fa-chevron-left(aria-hidden='true') 
+      div
+        h1.page-header.mt-4 
+
+  .instructions
+    h2.mb-5
+      | Save 
+      i.fa.fa-flash(aria-hidden='true')
+      | , Save 
+      i.fa.fa-dollar(aria-hidden='true')
+
+    h3 What Are LEESA Credits?
+    p LEESA credits are points awarded to you based on how much energy you save every week. How much you save is determined by how far under your power goal you were for the week.
+    
+    h3 How Do I Earn Credits?
+    p Every day you have a power goal for each device. If you go under the power goal for a certain day, the amount you save (in Wh) is added to your weekly total. At the end of the week (Sunday, midnight), your total power saved for the week is converted into LEESA Credits. 1Wh of saved energy is equal to 10 credits.
+    
+    h3 How Are My Power Goals Set?
+    p Power goals are set for each device automatically, based on device type and usage habits. If you rarely use a device, your power goal will be lowered to . Similarly, if you use a device often your power goal will be raised. This is is so you aren't penalized for normal habits, while still encouraging power saving. Your weekly power goal is the sum of all your device power goals. You can see the power goal for each device in the device details page.
+
+    h3 How Do I Redeem My Credits?
+    p You can redeem your credits with your energy provider, such as Energex, Origin, Ergon and more. The value of credits depends on your energy provider.
+
+  include sections/bottomBar

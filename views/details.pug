@@ -1,0 +1,23 @@
+extends layout
+
+block content
+
+  div.login-container
+    h1.mb-5.detailh1 Welcome!
+    h2.detailh2 Please enter in your details
+    form(method="post" action="/login/details/" + id)
+      div.form-group.detailsform
+        h3.detailh3 What is your first name?
+        input.form-control.mb-4(
+          type='text'
+          name='firstname'
+          placeholder="Enter your first name"
+        )
+        h3.detailh3 What is your last name?
+        input.form-control.mb-4(
+          type='text'
+          name='lastname'
+          placeholder="Enter your last name"
+        )
+        button.btn.btn-primary.btn-login Let's go!
+

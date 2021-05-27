@@ -1,0 +1,18 @@
+extends layout
+
+block content
+  div#headbar.d-flex.justify-content-between
+    div.d-flex.justify-content-left
+      a(href='/')
+        i.back-arrow.fa.fa-chevron-left(aria-hidden='true') 
+      div
+        h1.page-header.mt-4 
+
+  .text-center.leesave-splash
+    img(src='img/leesave-no-devices.jpg')
+    h1 Connect Your Device
+    br
+    h2 Link your device with its official smart device account.
+    br
+    h2 Your device will then be automatically detected inside LEESA.
+  include sections/bottomBar

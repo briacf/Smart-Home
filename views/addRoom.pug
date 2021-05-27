@@ -1,0 +1,76 @@
+extends layout
+
+block content
+  div.d-flex.justify-content-left
+    a(href='/rooms')
+      i.back-arrow.fa.fa-chevron-left(aria-hidden='true') 
+    div
+      if endpoint == 'Add'
+        h1.page-header Add New Room
+      else
+        h1.page-header Edit #{roomName}
+
+  div.login-container
+    - var url = 'add'
+
+    if endpoint == "Edit"
+      - url = endpoint.toLowerCase() + '/' + roomName
+
+    form(method="post" action="/rooms/" + url)
+
+      div.form-group.detailsform
+        h3.detailh3 Room Name
+
+        if endpoint == 'add'
+          input.form-control.mb-4(
+            type='text'
+            name='roomName'
+            placeholder="Enter a room name"
+            required
+          )
+        else
+          input.form-control.mb-4(
+            type='text'
+            name='roomName'
+            placeholder="Enter a room name"
+            value=roomName
+            required
+          )
+
+        h3.detailh3 Colour
+        input(id="roomColor" name="roomColor" type="hidden", value="orange")
+        div.d-flex.justify-content-between.mb-5
+          div.room.circle.orange.selected(onClick='toggleRoomColor("orange")')
+          div.room.circle.red(onClick='toggleRoomColor("red")')
+          div.room.circle.purple(onClick='toggleRoomColor("purple")')
+          div.room.circle.blue(onClick='toggleRoomColor("blue")')
+          div.room.circle.green(onClick='toggleRoomColor("green")')
+
+        if deviceList.length > 0
+          h3.detailh3.mt-5 Devices
+          each device, index in deviceList
+            if endpoint == 'Add' || (endpoint == 'Edit' && !roomDeviceOemIDs.includes(device.deviceId))
+              div(id=device.alias + '-box', onClick='selectRoom("' + device.alias + '")').device-select.mb-4.d-flex.justify-content-between
+                h3=device.alias
+                i(id=device.alias + '-check').fa.fa-check(aria-hidden='true')
+                input(id=device.alias + '-value', name=device.alias + 'Value', type='hidden', value='false')
+            else
+              div(id=device.alias + '-box', onClick='selectRoom("' + device.alias + '")').device-select.mb-4.d-flex.justify-content-between.selected
+                h3=device.alias
+                i(id=device.alias + '-check').fa.fa-check(aria-hidden='true').selected
+                input(id=device.alias + '-value', name=device.alias + 'Value', type='hidden', value='true')
+
+        if endpoint == 'Edit'
+            div.text-center.mt-5
+              a(href='/rooms/delete/' + roomName).text-btn.red
+                p Delete Room
+
+        button.btn.btn-primary.btn-login.mt-5=endpoint
+
+
+  include sections/bottomBar
+
+block scripts
+  script(src='/js/sort-rooms.js')
+  script(src='/js/select-room.js')
+  script(src='/js/select-room-color.js')

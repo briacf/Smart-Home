@@ -1,0 +1,68 @@
+extends layout
+
+block content
+  div.headlee
+    i.leesavetitleicon.fa.fa-check-circle(aria-hidden='true').leesavehistory
+    h1.page-header.leesavetitle.leesavehistory LEESAve
+    ul.nav.nav-tabs.mb-5.d-flex.justify-content-between
+      li.nav-item.historyiconwidth
+        a(href='/leesave')
+          p#devicesTab.nav-link.active.leesaveblue Back
+  
+  div.dropdowndiv
+    h1 Select your device
+    select#dropdevices(name="dropdevices")
+      for otherDevices in deviceList
+        if (otherDevices.alias == device.alias)
+          option(value=otherDevices.oem_id selected)=otherDevices.alias
+        else
+          option(value=otherDevices.oem_id)=otherDevices.alias
+    
+    h1.leesavehistory.historyh1 History
+
+    h2.leesavehistory.historyh2 Rejected recommendations
+    div.deviceleesavebox.historybox
+      h1 HS110(AU)
+      h2 Light Bulb
+
+      h2.menuitem Recommendations
+
+      div.rule
+        div.rule-box.mb-5.expandable
+          h1 Recommended on 18/9/20
+          h2 Plug on
+          h5 04:00 to 08:00
+
+          table.dayslist
+            tr
+              th.checkedday S
+              th M
+              th T
+              th.checkedday W
+              th T
+              th.checkedday F
+              th S
+
+        div(id=alias + '-toggle').toggle-container.mb-5
+          i.powertoggle.fa.fa-check-circle(aria-hidden='true')   
+
+    h2.leesavehistory.historyh2 Rejected notifications
+    div.deviceleesavebox.historynotifbox
+      h1 HS110(AU)
+      h2 Light Bulb
+
+      h2.menuitem Notifications
+
+      div.rule
+        div.notification-box.mb-5.expandable
+          h1 Your device 'TV' is using too much power during the day!
+
+      div.rule
+        div.notification-box.mb-5.expandable
+          h1 Your device 'Fan' is always on for the week!
+
+      div.rule
+        div.notification-box.mb-5.expandable
+          h1 Your device 'Air-con' is on during Winter as well.
+
+  include sections/bottomBar

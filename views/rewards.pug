@@ -1,0 +1,69 @@
+extends layout
+
+block content
+  div#headbar.d-flex.justify-content-between
+    i.leesavetitleicon.rewardsicon.fa.fa-star.orangered(aria-hidden='true')
+    h1.page-header.mt-4.rewardsh1 Rewards
+    a(href='/rewards/instructions')
+      h2.mt-5 How it Works
+
+  .credits-box
+    h2=credits
+    h3 credits
+
+  .card#graph-box(onclick='expandRewards("graph")')
+    input(type='hidden', value='')
+    div.d-flex.justify-content-between.ml-4.mr-4
+      h2.mt-2 My Weekly Usage
+      i#graph-icon(aria-hidden='true').card-toggle.fa.fa-minus
+
+    canvas#usageGraph.mt-5(width="400" height="400")
+
+  if showRooms
+    .card.mt-5#rooms-box(onclick='expandRewards("rooms")')
+      div.d-flex.justify-content-between.ml-4.mr-4
+        h2.mt-2 Power Usage By Room
+        i#rooms-icon.card-toggle.fa.fa-minus(aria-hidden='true').card-toggle.fa.fa-minus
+
+      canvas#roomsGraph.mt-5.mb-2
+      .d-flex.justify-content-center
+        p#roomsGraphLegend
+
+  .card.mt-5.mb-5#efficiency-box(onclick='expandRewards("efficiency")')
+    div.d-flex.justify-content-between.ml-4.mr-4
+      h2.mt-2 Least Efficient Devices
+      i#efficiency-icon.card-toggle.fa.fa-minus(aria-hidden='true') 
+
+    .d-flex.justify-content-left.ml-4.mr-4.mt-3#no-devices-label
+      h3 No inefficient devices
+
+    .efficiency-box.ml-4.mr-4.mt-5.mb-4#le-device-1-box.hidden
+      .d-flex.justify-content-between
+        h2#le-device-1-label
+        a(href='')#le-device-1-link
+          i.device-arrow.fa.fa-chevron-right(aria-hidden='true')
+
+      canvas#le-device-1-graph.mt-5(width="400" height="80")
+
+    .efficiency-box.ml-4.mr-4.mt-3.mb-4#le-device-2-box.hidden
+      .d-flex.justify-content-between
+        h2#le-device-2-label
+        a(href='')#le-device-2-link
+          i.device-arrow.fa.fa-chevron-right(aria-hidden='true')
+
+      canvas#le-device-2-graph.mt-5(width="400" height="80")
+
+    .efficiency-box.ml-4.mr-4.mt-3.mb-4#le-device-3-box.hidden
+      .d-flex.justify-content-between
+        h2#le-device-3-label
+        a(href='')#le-device-3-link
+          i.device-arrow.fa.fa-chevron-right(aria-hidden='true')
+
+      canvas#le-device-3-graph.mt-5(width="400" height="80")
+
+  include sections/bottomBar
+
+block scripts
+  script(src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js')
+  script(src='/js/rewards-graph.js')
+  script(async, src='/js/expand-rewards.js')

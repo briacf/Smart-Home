@@ -1,0 +1,54 @@
+extends layout
+
+block content
+  img.profile-banner(src='img/profiles/' + coverPic)
+  div.d-flex.justify-content-center
+    div.profile-box.text-center
+      img(src='/img/profiles/' + profilePic)
+      h1.mt-3 !{firstname} !{lastname}
+      h5#location
+      div.d-flex.justify-content-center.mt-3
+        div.text-center.mr-3
+          b 3
+          p devices
+          
+          //if deviceTotal == 1
+            p device
+          //else
+            p devices
+        div.text-center.ml-3
+          b=roomTotal
+          if roomTotal == 1
+            p room
+          else
+            p rooms
+
+  div.profile-contents
+    h2 Notifications
+    div.setting-box.mb-4.d-flex.justify-content-between
+      p When device state changes
+      if deviceStateNotifs
+        i#dev-stt-ntf-switch.powertoggle.setting.fa.fa-toggle-on(aria-hidden='true', onClick='updateSetting("dev-stt-ntf")')
+      else
+        i#dev-stt-ntf-switch.powertoggle.setting.fa.fa-toggle-off(aria-hidden='true', onClick='updateSetting("dev-stt-ntf")')
+      
+    div.setting-box.mb-4.d-flex.justify-content-between
+      p Usage recommendations
+      if usageRecNotifs
+        i#usg-rec-ntf-switch.powertoggle.setting.fa.fa-toggle-on(aria-hidden='true', onClick='updateSetting("usg-rec-ntf")')
+      else
+        i#usg-rec-ntf-switch.powertoggle.setting.fa.fa-toggle-off(aria-hidden='true', onClick='updateSetting("usg-rec-ntf")')
+
+    div.text-center.mt-5.mb-5
+      a(href='/profile/edit').text-btn.mb-5
+        div.d-flex.justify-content-center
+          i.fa.fa-pencil.text-btn-icon(aria-hidden='true')
+          p Edit Profile
+      a(href='/logout').text-btn.red
+        p Logout
+
+  include sections/bottomBar
+
+block scripts
+  script(src='/js/get-country.js')
+  script(src='/js/update-setting.js')

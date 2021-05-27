@@ -1,0 +1,180 @@
+extends layout
+
+block content
+
+  div#headbar.indexbar
+
+    h1.page-header.titleindex Welcome back, !{name}
+    a(href='/profile')
+      img(src='/img/profiles/' + profilePic).profileheader
+  
+  div#impinfo
+
+    div#temphumid-container
+      i.temphumidicons.fa.fa-thermometer-quarter(aria-hidden='true').floatleft
+      h1#temp.temphumidtext.floatleft 39°C
+      i.temphumidicons.fa.fa-humidity(aria-hidden='true').floatleft
+      h1#humid.temphumidtext.floatleft 78%
+
+    div#powerusagemain.powergoalscontain.info-container.expandable.mb-4.mb-5
+      h2 Today's power usage
+      div.bargraph
+        div#daily-power-percent-bar.completed
+          p#daily-power-label W
+      h5#daily-power-percent-label
+
+      div.contents-container
+        h2 My Daily Power Goal
+        p#goal-power-label 300 W
+        br
+        h2 Previous Days
+        div.d-flex.justify-content-between
+          p#1-day-ago-label 250 W
+          h3 Yesterday
+        div.d-flex.justify-content-between
+          p#2-day-ago-label 400 W
+          h3 Last Tues
+        div.d-flex.justify-content-between
+          p#3-day-ago-label 270 W
+          h3 Last Mon
+  hr
+
+  div#homedevices
+    div.d-flex.justify-content-between.mb-4
+      i.leesavetitleicon.homeleeicon.fa.fa-check-circle(aria-hidden='true')
+      h2.menuitem.notifh1 Notifications
+      a(href='/leesave')
+        h2#deviceToggle More
+      
+    br
+
+    div.notification-box.mb-5.expandable
+      h1 Your device 'TV' is using too much power during the day!
+
+    hr
+    br
+    br
+
+    div.d-flex.justify-content-between.mb-4
+      i.leesavetitleicon.homeleeicon.fa.fa-star.orangered(aria-hidden='true')
+      h2.menuitem.applianceh1 Appliances
+      a(href='/leesave')
+        h2#deviceToggle(onClick='showDevices()') More
+
+    br  
+    div#devices
+    if (deviceList.length)
+        each device, index in deviceList
+          if (device.status)
+            if (device.deviceModel.includes("LB"))
+                div(id=device.alias + '-container').device-container.dropdowngradient.expandable.device.mb-5
+                  div.d-flex.justify-content-between
+                    div
+                      h1 !{device.deviceModel.split('(')[0]}
+                      h2=device.alias
+                    a(href='/usage/' + device.deviceId)
+                      i.device-arrow.fa.fa-chevron-right(aria-hidden='true') 
+
+                  h3 Power Usage
+                    div.d-flex.justify-content-between
+                      img.product-spinner.loading-spinner(src='https://upload.wikimedia.org/wikipedia/commons/7/7a/Ajax_loader_metal_512.gif')
+                      p(id="power-label-" + index).power
+                      p(id="power-live-label-" + index).power-live
+
+                    h3 Brightness
+                      div.slidecontainer
+                          input(type="range" min="0" max="10" value="5" class="slider" id=device.alias + '-brightness' onChange='toggleBrightness("' + device.alias + '", "' + device.deviceModel + '",  this.value)')
+
+                      h3 Color
+                      div.d-flex.justify-content-between
+                          div(id=device.alias + '-color-off-white', onClick='toggleColor("' + device.alias + '", "' + device.deviceModel + '",  "off-white")').circle.off-white.selected
+                          div(id=device.alias + '-color-red', onClick='toggleColor("' + device.alias + '", "' + device.deviceModel + '",  "red")').circle.red
+                          div(id=device.alias + '-color-blue', onClick='toggleColor("' + device.alias + '", "' + device.deviceModel + '",  "blue")').circle.blue
+                          div(id=device.alias + '-color-green', onClick='toggleColor("' + device.alias + '", "' + device.deviceModel + '",  "green")').circle.green
+                          div(id=device.alias + '-color-white', onClick='toggleColor("' + device.alias + '", "' + device.deviceModel + '",  "white")').circle.white
+
+                if (sysInfoArray[index].system.get_sysinfo.light_state.on_off == 0)
+                    div(id=device.alias + '-switch-box', onClick='toggleAppliance("' + device.alias + '", "' + device.deviceModel + '")').togglecolor.toggle-container.mb-5
+                        i(id=device.alias + '-switch', aria-hidden='true').powertoggle.fa.fa-toggle-off
+                else
+                    div(id=device.alias + '-switch-box', onClick='toggleAppliance("' + device.alias + '", "' + device.deviceModel + '")').toggle-container.mb-5
+                        i(id=device.alias + '-switch', aria-hidden='true').powertoggle.fa.fa-toggle-on
+                    
+            else
+              div(id=device.alias + '-container').device-container.mb-5
+                div.d-flex.justify-content-between
+                  div
+                      h1 !{device.deviceModel.split('(')[0]}
+                      h2=device.alias
+                  a(href='/usage/' + device.deviceId)
+                      i.device-arrow.fa.fa-chevron-right(aria-hidden='true') 
+
+                h3 Power Usage
+                div.d-flex.justify-content-between
+                  img.product-spinner.loading-spinner(src='https://upload.wikimedia.org/wikipedia/commons/7/7a/Ajax_loader_metal_512.gif')
+                  p(id="power-label-" + index).power
+                  p(id="power-live-label-" + index).power-live
+
+              if (sysInfoArray[index].system.get_sysinfo.relay_state == 0)
+                  div(id=device.alias + '-switch-box', onClick='toggleAppliance("' + device.alias + '", "' + device.deviceModel + '")').togglecolor.toggle-container.mb-5
+                      i(id=device.alias + '-switch', aria-hidden='true').powertoggle.fa.fa-toggle-off
+              else
+                  div(id=device.alias + '-switch-box', onClick='toggleAppliance("' + device.alias + '", "' + device.deviceModel + '")').toggle-container.mb-5
+                      i(id=device.alias + '-switch', aria-hidden='true').powertoggle.fa.fa-toggle-on
+
+        else
+            div(id=device.alias + '-container').device-container.inactivedevice.expandable.mb-5
+                div.d-flex.justify-content-between
+                    div
+                    h1=device.deviceModel
+                    h2=device.alias
+                    i.device-arrow.fa.fa-exclamation-triangle(aria-hidden='true') 
+
+    else
+      h1.nodevices There are currently no setup devices.
+      br
+      div.text-center
+        a(href="/device-instructions")
+          button.btn-primary
+            h1.nodevices.mb-0
+              i.fa.fa-question-circle.mr-3(aria-hidden='true') 
+              | How To Add a Device
+
+    hr
+    br
+    
+    div.d-flex.justify-content-between.mb-4
+      img(src='/img/icons/door-open-solid.svg').leesavetitleicon.roomiconindex
+      h2.menuitem.roomtitleh1 Recent rooms
+
+    br
+
+    each room, index in roomList
+      div.device-container.room.mb-5(class=room.color)
+        div.d-flex.justify-content-between
+          h2=room.name
+          a(href='/rooms/' + room.name)
+            i.device-arrow.fa.fa-chevron-right(aria-hidden='true') 
+
+        h3 Power Usage
+        div.d-flex.justify-content-between
+          img.room-spinner.loading-spinner(src='https://upload.wikimedia.org/wikipedia/commons/7/7a/Ajax_loader_metal_512.gif')
+          p(id=room.name.replace("'", "").replace(" ", "") + "-power-label-room").power.room-power.hidden W
+          
+  include sections/bottomBar
+
+block scripts
+    script(async, src='/js/toggle-appliance.js')
+    script(async, src='/js/toggle-color.js')
+    script(async, src='/js/toggle-brightness.js')
+    script(async, src='/js/deviceTime.js')
+    script(async, src='/js/expand-container.js')
+    script(async, src='/js/live-update.js')
+    script(async, src='/js/live-update-rooms.js')
+    script(async, src='/js/pull-to-refresh.js')
+    script(async, src='/js/show-devices.js')
+    script(src='/js/pushpro-lib.js')
+    script(src='/sw.js')
+    script(src='/js/pushpro.js')
+
+

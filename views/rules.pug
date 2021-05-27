@@ -1,0 +1,91 @@
+extends layout
+
+block content
+
+  div#headbar
+    h1.page-header !{startName} !{alias}
+    i.profileheader.fa.fa-plug(aria-hidden='true')
+  
+  div#heading 
+    h2 Rules
+
+  hr
+  
+  div#togglemenu
+
+    div.button-container.active.mb-5
+      h1 Schedule
+
+    div.button-container.mb-5
+      h1 Timer
+    
+    div.button-container.mb-5
+      h1 Away
+
+  div#rules.device
+    each rule in scheduleList
+      div.rule
+      div.rule-box(id=alias+"-schedulerule", onClick='expand_rules("' + alias + '")').mb-5.expandable
+        h1 Schedule Rule
+        if rule.sact == 1
+          h2="Plug on"
+        else if rule.sact == 0
+          h2="Plug off"
+        else if rule.sact == null
+          h2="Rule"
+        h4 This rule will activate at
+        h5=new Date(rule.smin * 1000).getMinutes()+":"+String(new Date(rule.smin * 1000).getSeconds()).padStart(2, "0")
+
+        div.sched
+          h3 In how many minutes and seconds?
+          input(type="number", min=0, max=23, onKeyPress="if(this.value.length==2) return false;").timer
+          span min
+          input(type="number", min=0, max=60, onKeyPress="if(this.value.length==2) return false;").timer
+          span sec
+
+        //h3.h3padding Days of week to repeat
+        //div#daysweek
+
+        input(type="submit")
+
+
+      div(id=alias + '-toggle').toggle-container.mb-5
+        i.powertoggle.fa.fa-toggle-on(aria-hidden='true')
+
+    each rule in timerList
+      div.rule
+      div.rule-box(id=alias+"-timerrule", onClick='expand_rules("' + alias + '")').mb-5.expandable
+        h1 Timer Rule
+        if rule.act == 1
+          h2="Plug on"
+        else if rule.act == 0
+          h2="Plug off"
+        else if rule.act == null
+          h2="Rule"
+        h4 This rule will activate at
+        h5=(new Date((new Date().getTime() + (rule.delay * 1000))).getHours())+":"+String(new Date((new Date().getTime() + (rule.delay * 1000))).getMinutes()).padStart(2, "0")
+
+        div.sched
+          h3 In how many minutes and seconds?
+          input(type="number", min=0, max=23, onKeyPress="if(this.value.length==2) return false;").timer
+          span min
+          input(type="number", min=0, max=60, onKeyPress="if(this.value.length==2) return false;").timer
+          span sec
+
+        //h3.h3padding Days of week to repeat
+        //div#daysweek
+
+        input(type="submit")
+
+
+      div(id=alias + '-toggle').toggle-container.mb-5
+        i.powertoggle.fa.fa-toggle-on(aria-hidden='true')
+
+
+      
+
+  include sections/bottomBar
+
+  block scripts
+    script(src='/js/expand-container.js')
+    script(src='/plugins/inline-week-day-picker/src/jquery-weekdays.js')
